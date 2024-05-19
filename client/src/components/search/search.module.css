@@ -1,0 +1,18 @@
+.buttonSearch,
+.inputSearch {
+  padding: 5px;
+  box-shadow: 0px 5px 15px #fff;
+}
+
+.buttonSearch {
+  background: #8412b9;
+  color: #fff;
+}
+
+.buttonSearch i {
+  font-size: 20px;
+}
+
+.inputSearch:focus {
+  border: none;
+}

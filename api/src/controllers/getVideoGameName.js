@@ -22,15 +22,11 @@ const getVideoGameName = async (req, res) => {
     const dbResults = await Videogame.findAll({
       where: {
         name: {
-          [Op.iLike]: `%${search}%`, // Aquí buscamos por el nombre
+          [Op.iLike]: `%${search}%`, // Aquí buscamos por el nombre insensible a minusculas o mayusculas.
         },
       },
       limit: 15, //limitamos a 15
     });
-
-    if (dbResults.length > 0) {
-      return res.status(200).json(dbResults);
-    }
 
     //si no estan en la base de datos, buscamos en la API
 
@@ -40,8 +36,10 @@ const getVideoGameName = async (req, res) => {
 
     const apiResults = response.data.results;
 
-    if (apiResults.length > 0) {
-      return res.status(200).json(apiResults);
+    const allResults = [...dbResults, ...apiResults];
+
+    if (allResults.length > 0) {
+      return res.status(200).json(allResults);
     } else {
       return res.status(404).json({
         message:

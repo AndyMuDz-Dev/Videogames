@@ -30,6 +30,24 @@
 .sobrefondo {
   width: 100%;
   box-shadow: 0px 10px 15px #000;
+  position: relative;
+  border: 2px solid transparent;
+  animation: neon-border 5s infinite;
+  -webkit-animation: neon-border 5s infinite;
+}
+
+.sobrefondo::before {
+  content: '';
+  /*Pseudo-elementoparacrearelborde*/
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  animation: neon-border s5 infinite;
+  -webkit-animation: neon-border 5s infinite;
 }
 
 @keyframes pulse {
@@ -70,5 +88,20 @@
   }
   100% {
     box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.3);
+  }
+}
+
+@keyframes neon-border {
+  0% {
+    border-color: #fff; /* Púrpura neón */
+    box-shadow: 0 0 10px #fff; /* Sombra púrpura neón */
+  }
+  50% {
+    border-color: #000000; /* Negro neón */
+    box-shadow: 0 0 10px #070707; /* Sombra negro neón */
+  }
+  100% {
+    border-color: #fff; /* Vuelve al púrpura neón */
+    box-shadow: 0 0 10px #fff; /* Vuelve a la sombra púrpura neón */
   }
 }

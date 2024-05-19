@@ -2,24 +2,21 @@ const { Videogame, Genres } = require('../db');
 
 const postVideoGame = async (req, res) => {
   try {
-    const {
-      name,
-      descripcion,
-      plataformas,
-      imagen,
-      fechaLanzamiento,
-      rating,
-      genres,
-    } = req.body;
+    const { name, description, platforms, image, released, rating, genres } =
+      req.body;
+
+    //acomodamos el array de plataformas:
+
+    const platformsGroup = platforms.join(', ');
 
     // validamos que esten todos llenos los datos
 
     if (
       !name ||
-      !descripcion ||
-      !plataformas ||
-      !imagen ||
-      !fechaLanzamiento ||
+      !description ||
+      !platforms ||
+      !image ||
+      !released ||
       !rating ||
       !genres
     ) {
@@ -30,22 +27,33 @@ const postVideoGame = async (req, res) => {
 
     // creamos el videojuegop en la base de datos
 
-    const newVideoGame = await Videogame.create({
+    await Videogame.create({
       name,
-      descripcion,
-      plataformas,
-      imagen,
-      fechaLanzamiento,
+      description,
+      platforms: platformsGroup,
+      image,
+      released,
       rating,
     });
 
     // aqui relacionamos los videojuegos con los generos
+    const createdGame = await Videogame.findOne({
+      where: {
+        name: name,
+      },
+    });
 
-    await newVideoGame.addGenres(genres);
-    return res.status(201).json(newVideoGame);
+    let parsedGenres = genres.map((g) => JSON.parse(g));
+
+    const addedGenres = await parsedGenres.map((g) =>
+      createdGame.addGenres(g.id)
+    );
+
+    await Promise.all(addedGenres);
+
+    return res.status(201).send('Video Juego Creado Correctamente');
   } catch (error) {
-    console.error('Error al crear el videojuego:', error);
-    return res.status(500).json({ error: 'Error al crear el videojuego.' });
+    console.error(error.message);
   }
 };
 

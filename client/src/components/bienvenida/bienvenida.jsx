@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './bienvenida.module.css';
 import imgFondo from '../../media/andres.jpg';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { useDispatch } from 'react-redux';
+import { getAllGames } from '../../redux/action';
 
+// landing page...
 const Bienvenida = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllGames);
+  }, [dispatch]);
   return (
     <div className={style.container}>
       <img src={imgFondo} alt='gamer' className={style.sobrefondo} />
-      <button type='text' className={style.startButton}>
-        Press Start
-      </button>
+      <Link to={'/home'}>
+        {' '}
+        <button type='text' className={style.startButton}>
+          Press Start
+        </button>
+      </Link>
     </div>
   );
 };
