@@ -1,56 +1,58 @@
+// controllers/getAllVideoGames.js
 const axios = require('axios');
 require('dotenv').config();
 const { API_KEY } = process.env;
-const { Videogame, Genres } = require('../db');
+const { Videogame } = require('../db'); // Importa el modelo de tu base de datos
 
-// Función para obtener todos los videojuegos desde la base de datos
-const getVideoGamesFromDB = async () => {
-  try {
-    const videoGames = await Videogame.findAll({
-      include: Genres,
-    });
-    return videoGames;
-  } catch (error) {
-    console.error('Error fetching video games from database:', error);
-    throw new Error('Error fetching video games from database');
-  }
-};
-
-// Función para obtener todos los videojuegos desde la API
-const getVideoGamesFromAPI = async () => {
+// Función para obtener los primeros 100 videojuegos de la API
+const getFirst100VideoGamesFromAPI = async () => {
   const URL = `https://api.rawg.io/api/games?key=${API_KEY}`;
+  let allVideoGames = [];
+  let page = 1;
+  const totalPages = 3; // Para obtener 100 juegos, necesitamos 3 páginas (40 juegos por página)
+
   try {
-    const response = await axios.get(URL);
-    const videoGames = response.data.results.map((game) => ({
-      id: game.id,
-      name: game.name,
-      description: game.description || 'No description available',
-      platforms: game.platforms.map((p) => p.platform.name).join(', '),
-      image: game.background_image,
-      released: game.released,
-      rating: game.rating,
-      genres: game.genres.map((g) => ({ id: g.id, name: g.name })),
-    }));
-    return videoGames;
+    for (let i = 0; i < totalPages; i++) {
+      const response = await axios.get(`${URL}&page=${page}`);
+      const videoGames = response.data.results.map((game) => ({
+        id: game.id,
+        name: game.name,
+        description: game.description || 'No description available',
+        platforms: game.platforms.map((p) => p.platform.name).join(', '),
+        background_image: game.background_image,
+        released: game.released,
+        rating: game.rating,
+        genres: game.genres.map((g) => ({ id: g.id, name: g.name })),
+      }));
+
+      allVideoGames = [...allVideoGames, ...videoGames];
+      page++;
+    }
+
+    return allVideoGames;
   } catch (error) {
-    console.error('Error fetching video games from API:', error);
-    throw new Error('Error fetching video games from API');
+    console.error('Error fetching first 100 video games from API:', error);
+    throw new Error('Error fetching first 100 video games from API');
   }
 };
 
-//controlador para obtener los videojuegos...
 const getAllVideoGames = async (req, res) => {
   try {
-    const dbVideoGames = await getVideoGamesFromDB();
-    const apiVideoGames = await getVideoGamesFromAPI();
+    // Obtener los videojuegos de la base de datos
+    const dbVideoGames = await Videogame.findAll();
 
-    // Combinamos los juegos, primero los de la DB y luego los de la API
+    // Obtener los primeros 100 videojuegos de la API
+    const apiVideoGames = await getFirst100VideoGamesFromAPI();
+
+    // Combinar los resultados de la base de datos y la API
     const allVideoGames = [...dbVideoGames, ...apiVideoGames];
 
+    // Devolver los videojuegos combinados como respuesta
     res.status(200).json(allVideoGames);
   } catch (error) {
-    console.error('Error fetching video games:', error);
-    res.status(500).json({ error: 'Error fetching video games' });
+    console.error('Error fetching all video games:', error);
+    res.status(500).json({ error: 'Error fetching all video games' });
   }
 };
+
 module.exports = getAllVideoGames;

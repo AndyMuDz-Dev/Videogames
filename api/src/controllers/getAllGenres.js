@@ -9,7 +9,12 @@ const getAllGenres = async (req, res) => {
     const response = await axios.get(
       `https://api.rawg.io/api/genres?key=${API_KEY}`
     );
-    const apiGenres = response.data.results;
+    const apiGenres = response.data.results.map((g) => {
+      return {
+        name: g.name,
+        background_image: g.background_image,
+      };
+    });
 
     // verificamos si la base de datos esta vacia
 

@@ -1,38 +1,35 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { useState } from 'react';
-
-//routes
-import routered from './helpers/Routes.helper';
-
-//components
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getAllGames, getAllGenres } from './redux/action';
 import Bienvenida from './components/bienvenida/bienvenida';
 import Cards from './components/Cards/Cards';
 import Navigation from './components/Navigation/Navigation';
+import Pagination from './components/Pagination/Pagination';
+import routered from './helpers/Routes.helper';
 
-function App() {
-  const [videogames, setVideogames] = useState([]);
+const App = () => {
+  const dispatch = useDispatch();
 
-  const onSearch = async (name) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3001/videogames/name?search=${name}`
-      );
-      const data = await response.json();
-      setVideogames([...videogames, data]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    dispatch(getAllGames());
+    dispatch(getAllGenres());
+  }, [dispatch]);
 
+  console.log(getAllGames());
   return (
     <div className='App'>
       <Router>
         <Route
+          path='/'
           render={({ location }) => (
             <>
               {location.pathname !== routered.Bienvenida && (
-                <Navigation onSearch={onSearch} />
+                <>
+                  <Navigation />
+                  <Pagination />
+                </>
               )}
               <Switch>
                 <Route
@@ -40,11 +37,7 @@ function App() {
                   path={routered.Bienvenida}
                   component={Bienvenida}
                 />
-                <Route
-                  exact
-                  path={routered.Home}
-                  render={() => <Cards videogames={videogames} />}
-                />
+                <Route exact path={routered.Home} component={Cards} />
               </Switch>
             </>
           )}
@@ -52,6 +45,6 @@ function App() {
       </Router>
     </div>
   );
-}
+};
 
 export default App;

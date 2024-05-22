@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import style from './bienvenida.module.css';
 import imgFondo from '../../media/andres.jpg';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getAllGames } from '../../redux/action';
 
@@ -10,7 +10,7 @@ const Bienvenida = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllGames);
+    dispatch(getAllGames());
   }, [dispatch]);
   return (
     <div className={style.container}>
