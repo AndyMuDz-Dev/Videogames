@@ -10,7 +10,7 @@ const getVideoGameName = async (req, res) => {
 
     const { search } = req.query;
     //aqui podemos verificar si escribieron algo en la busqueda o no
-
+    console.log(search);
     if (!search) {
       return res
         .status(400)

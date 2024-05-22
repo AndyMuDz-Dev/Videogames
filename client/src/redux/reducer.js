@@ -2,6 +2,7 @@
 import {
   GET_ALL_GAMES,
   GET_ALL_GENRES,
+  SEARCH_BY_NAME,
   SET_CURRENT_PAGE,
   SET_ITEMS,
   SET_TOTAL_PAGES,
@@ -13,6 +14,7 @@ const initialState = {
   currentPage: 1,
   totalPages: 1,
   items: [],
+  gamesByName: [],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -31,6 +33,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
     case SET_ITEMS:
       return { ...state, items: payload };
+    case SEARCH_BY_NAME:
+      return {
+        ...state,
+        gamesByName: payload.results,
+        totalPages: payload.totalPages,
+      };
 
     default:
       return state;

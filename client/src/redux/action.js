@@ -5,6 +5,7 @@ export const GET_ALL_GENRES = 'GET_ALL_GENRES';
 export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 export const SET_TOTAL_PAGES = 'SET_TOTAL_PAGES';
 export const SET_ITEMS = 'SET_ITEMS';
+export const SEARCH_BY_NAME = 'SEARCH_BY_NAME';
 
 const PAGE_SIZE = 15;
 
@@ -50,4 +51,20 @@ export const getAllGenres = () => (dispatch) => {
     .catch((error) => {
       console.log(error);
     });
+};
+
+export const searchByName = (name) => {
+  return function (dispatch) {
+    try {
+      return axios
+        .get(`http://localhost:3001/videogames/name?search=${name}`)
+        .then((res) => {
+          const results  = res.data
+          const totalPages = Math.ceil(results.length / PAGE_SIZE)
+           dispatch({ type: SEARCH_BY_NAME, payload: { results, totalPages } });
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };

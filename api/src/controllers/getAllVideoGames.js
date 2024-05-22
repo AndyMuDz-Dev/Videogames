@@ -9,7 +9,7 @@ const getFirst100VideoGamesFromAPI = async () => {
   const URL = `https://api.rawg.io/api/games?key=${API_KEY}`;
   let allVideoGames = [];
   let page = 1;
-  const totalPages = 3; // Para obtener 100 juegos, necesitamos 3 páginas (40 juegos por página)
+  const totalPages = 5; // Para obtener 100 juegos, necesitamos 5 páginas (15 juegos por página)
 
   try {
     for (let i = 0; i < totalPages; i++) {

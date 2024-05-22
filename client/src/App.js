@@ -1,6 +1,5 @@
-import './App.css';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getAllGames, getAllGenres } from './redux/action';
 import Bienvenida from './components/bienvenida/bienvenida';
@@ -17,7 +16,6 @@ const App = () => {
     dispatch(getAllGenres());
   }, [dispatch]);
 
-  console.log(getAllGames());
   return (
     <div className='App'>
       <Router>
@@ -25,19 +23,17 @@ const App = () => {
           path='/'
           render={({ location }) => (
             <>
-              {location.pathname !== routered.Bienvenida && (
-                <>
-                  <Navigation />
-                  <Pagination />
-                </>
-              )}
+              {location.pathname !== routered.Bienvenida && <Navigation />}
               <Switch>
                 <Route
                   exact
                   path={routered.Bienvenida}
                   component={Bienvenida}
                 />
-                <Route exact path={routered.Home} component={Cards} />
+                <Route exact path={routered.Home}>
+                  <Cards />
+                  <Pagination />
+                </Route>
               </Switch>
             </>
           )}

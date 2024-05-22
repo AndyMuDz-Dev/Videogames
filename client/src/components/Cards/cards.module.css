@@ -4,7 +4,7 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px; /* Espacio entre los elementos, ajusta según tus necesidades */
-  overflow: scroll;
+  overflow: auto; /* Permite el desplazamiento y solo mostrará las barras cuando sea necesario */
   position: relative;
   box-sizing: border-box;
   padding: 20px;
@@ -12,4 +12,9 @@
   background-image: url('../../media/fondoGamer.jpg');
   background-position: center;
   background-repeat: repeat;
+}
+
+/* Ocultar las barras de desplazamiento nativas */
+.container::-webkit-scrollbar {
+  display: none;
 }
