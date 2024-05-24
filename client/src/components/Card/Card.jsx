@@ -1,12 +1,22 @@
 import { Link } from 'react-router-dom';
 import style from './card.module.css';
+import { useDispatch } from 'react-redux';
+import { getDetail } from '../../redux/action';
 
 const Card = (props) => {
   const { id, name, background_image, genres } = props;
+  const dispatch = useDispatch();
 
+  const handleClick = () => {
+    dispatch(getDetail(id));
+  };
   return (
-    <div className={style.container}>
-      <Link to={`/detail/${id}`} className={style.link}>
+    <div className={style.container} key={id}>
+      <Link
+        to={`/videogames/${id}`}
+        onClick={handleClick}
+        className={style.link}
+      >
         <img
           src={background_image}
           alt='imagen card'
@@ -15,7 +25,8 @@ const Card = (props) => {
         <div className={style.descript}>
           <h2 className={style.name}>{name}</h2>
           <div className={style.genres}>
-            <span>Genero: </span> {genres?.map((genre) => genre.name).join(', ')}
+            <span>Genero: </span>{' '}
+            {genres?.map((genre) => genre.name).join(', ')}
           </div>
         </div>
       </Link>

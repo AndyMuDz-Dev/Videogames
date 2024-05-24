@@ -6,6 +6,8 @@ import {
   SET_CURRENT_PAGE,
   SET_ITEMS,
   SET_TOTAL_PAGES,
+  SET_LOADING,
+  GET_DETAIL,
 } from './action';
 
 const initialState = {
@@ -15,6 +17,8 @@ const initialState = {
   totalPages: 1,
   items: [],
   gamesByName: [],
+  loading: false,
+  detailGame: null,
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -39,7 +43,18 @@ const rootReducer = (state = initialState, { type, payload }) => {
         gamesByName: payload.results,
         totalPages: payload.totalPages,
       };
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: payload,
+      };
 
+    case GET_DETAIL:
+      return {
+        ...state,
+        detailGame: payload,
+        loading: false,
+      };
     default:
       return state;
   }

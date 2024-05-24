@@ -11,7 +11,7 @@ const getAllGenres = require('../controllers/getAllGenres');
 // Configurar las rutas
 routes.get('/videogames', getAllVideoGames);
 routes.get('/videogames/name', getVideoGameName);
-routes.get('/videogames/:idVideogame', getVideoGameDetail);
+routes.get('/videogames/:id', getVideoGameDetail);
 routes.post('/videogames/create', postVideoGame);
 routes.get('/genres', getAllGenres);
 

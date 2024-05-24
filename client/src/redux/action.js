@@ -6,11 +6,21 @@ export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 export const SET_TOTAL_PAGES = 'SET_TOTAL_PAGES';
 export const SET_ITEMS = 'SET_ITEMS';
 export const SEARCH_BY_NAME = 'SEARCH_BY_NAME';
+export const SET_LOADING = 'SET_LOADING';
+export const GET_DETAIL = 'GET_DETAIL';
 
 const PAGE_SIZE = 15;
 
+export const setLoading = (loading) => {
+  return {
+    type: SET_LOADING,
+    payload: loading,
+  };
+};
+
 export const getAllGames = () => async (dispatch) => {
   try {
+    dispatch(setLoading(true));
     const response = await axios.get('http://localhost:3001/videogames');
     const videoGames = response.data;
 
@@ -23,6 +33,8 @@ export const getAllGames = () => async (dispatch) => {
     dispatch({ type: SET_CURRENT_PAGE, payload: 1 });
   } catch (error) {
     console.error('Error fetching video games from backend:', error);
+  } finally {
+    dispatch(setLoading(false));
   }
 };
 
@@ -54,17 +66,36 @@ export const getAllGenres = () => (dispatch) => {
 };
 
 export const searchByName = (name) => {
-  return function (dispatch) {
+  return async function (dispatch) {
     try {
-      return axios
-        .get(`http://localhost:3001/videogames/name?search=${name}`)
-        .then((res) => {
-          const results  = res.data
-          const totalPages = Math.ceil(results.length / PAGE_SIZE)
-           dispatch({ type: SEARCH_BY_NAME, payload: { results, totalPages } });
-        });
+      dispatch(setLoading(true));
+      const res = await axios.get(
+        `http://localhost:3001/videogames/name?search=${name}`
+      );
+      const results = res.data;
+      const totalPages = Math.ceil(results.length / PAGE_SIZE);
+      dispatch({ type: SEARCH_BY_NAME, payload: { results, totalPages } });
     } catch (error) {
-      console.log(error);
+      console.error('Error searching by name:', error);
+      throw error;
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
+
+export const getDetail = (id) => {
+  return async (dispatch) => {
+    dispatch(setLoading(true));
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/videogames/${id}`
+      );
+      console.log(response.data);
+      dispatch({ type: GET_DETAIL, payload: response.data });
+    } catch (error) {
+      console.log('Error al obtener los detalles', error);
+      dispatch(setLoading(false));
     }
   };
 };

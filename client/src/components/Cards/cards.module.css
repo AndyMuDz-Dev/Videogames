@@ -7,9 +7,9 @@
   overflow: auto; /* Permite el desplazamiento y solo mostrará las barras cuando sea necesario */
   position: relative;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 40px;
   top: 9px;
-  background-image: url('../../media/fondoGamer.jpg');
+  background-image: url('../../media/background.jpg');
   background-position: center;
   background-repeat: repeat;
 }
@@ -17,4 +17,16 @@
 /* Ocultar las barras de desplazamiento nativas */
 .container::-webkit-scrollbar {
   display: none;
+}
+
+.loadingContainer {
+  width: 100%;
+  background-color: aqua;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imgLoading {
+  width: 100%;
 }

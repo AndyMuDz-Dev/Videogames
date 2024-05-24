@@ -12,11 +12,20 @@ const SearchBar = () => {
     setName(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (name === '' || name.charCodeAt(0) === 32)
-      return alert('Please, enter a valid videogame name to search');
-    dispatch(searchByName(name));
-    setName(''); // Limpiar el input después de enviar
+      return alert(
+        'por favor ingresa un nombre valido para realizar la busqueda. '
+      );
+    try {
+      const result = await dispatch(searchByName(name));
+
+      setName(''); // Limpiar el input después de enviar
+      return result;
+    } catch (error) {
+      alert('Juego no encontrado.');
+      console.error('Error searching by name:', error);
+    }
   };
 
   return (
