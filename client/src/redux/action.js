@@ -91,7 +91,7 @@ export const getDetail = (id) => {
       const response = await axios.get(
         `http://localhost:3001/videogames/${id}`
       );
-      console.log(response.data);
+
       dispatch({ type: GET_DETAIL, payload: response.data });
     } catch (error) {
       console.log('Error al obtener los detalles', error);
