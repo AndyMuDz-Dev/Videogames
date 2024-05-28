@@ -17,6 +17,10 @@ const getVideoGameDetail = async (req, res) => {
 
       if (dbVideoGame) {
         videoGameDetail = dbVideoGame.toJSON();
+        videoGameDetail.genres = dbVideoGame.Genres.map((genre) => ({
+          id: genre.id,
+          name: genre.name,
+        }));
       } else {
         return res
           .status(404)

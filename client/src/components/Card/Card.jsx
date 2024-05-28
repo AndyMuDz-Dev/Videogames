@@ -26,7 +26,7 @@ const Card = (props) => {
           <h2 className={style.name}>{name}</h2>
           <div className={style.genres}>
             <span>Genero: </span>{' '}
-            {genres?.map((genre) => genre.name).join(', ')}
+            {genres && genres.map((genre) => genre.name).join(', ')}
           </div>
         </div>
       </Link>

@@ -14,9 +14,7 @@ module.exports = (sequelize) => {
         allowNull: false,
         unique: true,
       },
-      img: {
-        type: DataTypes.TEXT,
-      },
+ 
     },
     {
       timestamps: false,

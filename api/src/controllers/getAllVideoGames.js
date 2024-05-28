@@ -2,7 +2,7 @@
 const axios = require('axios');
 require('dotenv').config();
 const { API_KEY } = process.env;
-const { Videogame } = require('../db'); // Importa el modelo de tu base de datos
+const { Videogame, Genres } = require('../db'); // Importa el modelo de tu base de datos
 
 // Función para obtener los primeros 100 videojuegos de la API
 const getFirst100VideoGamesFromAPI = async () => {
@@ -39,7 +39,12 @@ const getFirst100VideoGamesFromAPI = async () => {
 const getAllVideoGames = async (req, res) => {
   try {
     // Obtener los videojuegos de la base de datos
-    const dbVideoGames = await Videogame.findAll();
+    const dbVideoGames = await Videogame.findAll({
+      include: {
+        model: Genres,
+        attributes: ['name'],
+      },
+    });
 
     // Obtener los primeros 100 videojuegos de la API
     const apiVideoGames = await getFirst100VideoGamesFromAPI();

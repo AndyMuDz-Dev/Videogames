@@ -10,6 +10,7 @@ import Cards from './components/Cards/Cards';
 import Navigation from './components/Navigation/Navigation';
 import Pagination from './components/Pagination/Pagination';
 import Detail from './components/DetailVideoGame/Detail';
+import CreateGame from './components/CreateGameForm/CreateGame';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -33,10 +34,14 @@ const App = () => {
                   path={routered.Bienvenida}
                   component={Bienvenida}
                 />
+
                 <Route exact path={routered.Home}>
                   <Cards />
                   <Pagination />
                 </Route>
+
+                <Route exact path={routered.create} component={CreateGame} />
+
                 <Route exact path={routered.detailGame} component={Detail} />
               </Switch>
             </>

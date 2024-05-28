@@ -8,6 +8,8 @@ import {
   SET_TOTAL_PAGES,
   SET_LOADING,
   GET_DETAIL,
+  CLEAR_DETAIL,
+  POST_VIDEO_GAME,
 } from './action';
 
 const initialState = {
@@ -19,6 +21,7 @@ const initialState = {
   gamesByName: [],
   loading: false,
   detailGame: null,
+  createdGame: null,
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -54,6 +57,16 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         detailGame: payload,
         loading: false,
+      };
+    case CLEAR_DETAIL:
+      return {
+        ...state,
+        detailGame: null,
+      };
+    case POST_VIDEO_GAME:
+      return {
+        ...state,
+        createdGame: payload,
       };
     default:
       return state;

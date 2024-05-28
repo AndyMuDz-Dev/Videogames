@@ -8,6 +8,8 @@ export const SET_ITEMS = 'SET_ITEMS';
 export const SEARCH_BY_NAME = 'SEARCH_BY_NAME';
 export const SET_LOADING = 'SET_LOADING';
 export const GET_DETAIL = 'GET_DETAIL';
+export const CLEAR_DETAIL = 'CLEAR_DETAIL';
+export const POST_VIDEO_GAME = 'POST_VIDEO_GAME';
 
 const PAGE_SIZE = 15;
 
@@ -86,7 +88,6 @@ export const searchByName = (name) => {
 
 export const getDetail = (id) => {
   return async (dispatch) => {
-    dispatch(setLoading(true));
     try {
       const response = await axios.get(
         `http://localhost:3001/videogames/${id}`
@@ -98,4 +99,25 @@ export const getDetail = (id) => {
       dispatch(setLoading(false));
     }
   };
+};
+
+export const clearDetail = () => {
+  return {
+    type: CLEAR_DETAIL,
+  };
+};
+
+export const postVideoGame = (gameData) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+      'http://localhost:3001/videogames/create',
+      gameData
+    );
+    dispatch({
+      type: POST_VIDEO_GAME,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error('Error posting video game:', error);
+  }
 };

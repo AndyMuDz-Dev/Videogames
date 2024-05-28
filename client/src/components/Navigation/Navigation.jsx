@@ -18,6 +18,9 @@ const Navigation = () => {
           Home
         </button>
       </Link>
+      <Link to={'/videogames/create'}>
+        <button className={style.buttonCreate}>Create New Game</button>
+      </Link>
       <SearchBar />
     </div>
   );
