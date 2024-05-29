@@ -10,8 +10,13 @@ export const SET_LOADING = 'SET_LOADING';
 export const GET_DETAIL = 'GET_DETAIL';
 export const CLEAR_DETAIL = 'CLEAR_DETAIL';
 export const POST_VIDEO_GAME = 'POST_VIDEO_GAME';
+//! filtros:
+export const FILTER_BY_GENRE = 'FILTER_BY_GENRE';
+export const FILTER_BY_SOURCE = 'FILTER_BY_SOURCE';
+export const SORT_BY_ALPHABET = 'SORT_BY_ALPHABET';
+export const SORT_BY_RATING = 'SORT_BY_RATING';
 
-const PAGE_SIZE = 15;
+export const PAGE_SIZE = 15;
 
 export const setLoading = (loading) => {
   return {
@@ -41,10 +46,13 @@ export const getAllGames = () => async (dispatch) => {
 };
 
 export const setCurrentPage = (page) => (dispatch, getState) => {
-  const { introGames } = getState();
+  const { introGames } = getState(); // Obtener filteredVideoGames del estado
+
+  // Calcular el índice de inicio y obtener los juegos de la página actual
   const startIndex = (page - 1) * PAGE_SIZE;
   const items = introGames.slice(startIndex, startIndex + PAGE_SIZE);
 
+  // Actualizar currentPage y los juegos de la página actual en el estado
   dispatch({ type: SET_CURRENT_PAGE, payload: page });
   dispatch({ type: SET_ITEMS, payload: items });
 };
@@ -121,3 +129,23 @@ export const postVideoGame = (gameData) => async (dispatch) => {
     console.error('Error posting video game:', error);
   }
 };
+
+export const filterByGenre = (genre) => ({
+  type: FILTER_BY_GENRE,
+  payload: genre,
+});
+
+export const filterBySource = (source) => ({
+  type: FILTER_BY_SOURCE,
+  payload: source,
+});
+
+export const sortByAlphabet = (order) => ({
+  type: SORT_BY_ALPHABET,
+  payload: order,
+});
+
+export const sortByRating = (order) => ({
+  type: SORT_BY_RATING,
+  payload: order,
+});

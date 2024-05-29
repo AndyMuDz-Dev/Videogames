@@ -10,6 +10,11 @@ import {
   GET_DETAIL,
   CLEAR_DETAIL,
   POST_VIDEO_GAME,
+  FILTER_BY_GENRE,
+  FILTER_BY_SOURCE,
+  SORT_BY_ALPHABET,
+  SORT_BY_RATING,
+  PAGE_SIZE,
 } from './action';
 
 const initialState = {
@@ -22,6 +27,11 @@ const initialState = {
   loading: false,
   detailGame: null,
   createdGame: null,
+  filteredVideoGames: [],
+  genre: 'All',
+  source: 'All',
+  sortOrder: 'asc',
+  sortBy: 'name',
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -67,6 +77,69 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         createdGame: payload,
+      };
+    case FILTER_BY_GENRE:
+      const filteredByGenre = state.introGames.filter((game) => {
+        // Verificar si game.genres está definido y no es null
+        if (game.genres && game.genres.length > 0) {
+          const genres = game.genres.map((genre) => genre.name); // Obtener nombres de géneros
+          return payload === 'All' ? true : genres.includes(payload);
+        }
+
+        // Si game.genres no está definido o es null, retornar false
+        return false;
+      });
+
+      const totalPagesGenre = Math.ceil(filteredByGenre.length / PAGE_SIZE);
+      return {
+        ...state,
+        genre: payload,
+        introGames: filteredByGenre,
+        totalPages: totalPagesGenre,
+      };
+
+    case FILTER_BY_SOURCE:
+      const filteredBySource = state.introGames.filter((game) =>
+        payload === 'All'
+          ? true
+          : payload === 'API'
+          ? game.fromApi
+          : !game.fromApi
+      );
+
+      const totalPagesSource = Math.ceil(filteredBySource.length / PAGE_SIZE);
+      return {
+        ...state,
+        genre: payload,
+        introGames: filteredBySource,
+        totalPages: totalPagesSource,
+      };
+    case SORT_BY_ALPHABET:
+      const sortedAlphabetically = [...state.introGames].sort((a, b) =>
+        payload === 'asc'
+          ? a.name.localeCompare(b.name)
+          : b.name.localeCompare(a.name)
+      );
+      const totalPagesAlphabet = Math.ceil(
+        sortedAlphabetically.length / PAGE_SIZE
+      );
+      return {
+        ...state,
+        sortOrder: payload,
+        introGames: sortedAlphabetically,
+        totalPages: totalPagesAlphabet,
+      };
+
+    case SORT_BY_RATING:
+      const sortedByRating = [...state.introGames].sort((a, b) =>
+        payload === 'asc' ? a.rating - b.rating : b.rating - a.rating
+      );
+      const totalPagesRating = Math.ceil(sortedByRating.length / PAGE_SIZE);
+      return {
+        ...state,
+        sortOrder: payload,
+        introGames: sortedByRating,
+        totalPages: totalPagesRating,
       };
     default:
       return state;

@@ -1,8 +1,7 @@
-// Pagination.js
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentPage } from '../../redux/action';
-import style from "./pagination.module.css"
+import style from './pagination.module.css';
 
 const Pagination = () => {
   const dispatch = useDispatch();
