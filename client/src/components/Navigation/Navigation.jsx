@@ -41,12 +41,12 @@ const Navigation = () => {
 
   return (
     <div className={style.container}>
-      <Link to={'/home'}>
+      <Link to={'/home'} className={style.btnHome}>
         <button className={style.buttonHome} onClick={handleHome}>
           Home
         </button>
       </Link>
-      <Link to={'/videogames/create'}>
+      <Link to={'/videogames/create'} className={style.btnHome}>
         <button className={style.buttonCreate}>Create New Game</button>
       </Link>
       <SearchBar />
@@ -71,14 +71,16 @@ const Navigation = () => {
       </div>
       <div className={style.sortOptions}>
         <h3>Sort by:</h3>
-        <select onChange={handleSortByAlphabet}>
-          <option value='asc'>Alphabet (A-Z)</option>
-          <option value='desc'>Alphabet (Z-A)</option>
-        </select>
-        <select onChange={handleSortByRating}>
-          <option value='asc'>Rating (ascendente)</option>
-          <option value='desc'>Rating (descendente)</option>
-        </select>
+        <div className={style.filters}>
+          <select onChange={handleSortByAlphabet}>
+            <option value='asc'>Alphabet (A-Z)</option>
+            <option value='desc'>Alphabet (Z-A)</option>
+          </select>
+          <select onChange={handleSortByRating}>
+            <option value='asc'>Rating (ascendente)</option>
+            <option value='desc'>Rating (descendente)</option>
+          </select>
+        </div>
       </div>
     </div>
   );

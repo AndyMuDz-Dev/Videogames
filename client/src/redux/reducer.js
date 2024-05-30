@@ -78,35 +78,41 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         createdGame: payload,
       };
-      case FILTER_BY_GENRE:
-        const filteredByGenre =
-          payload === 'All'
-            ? state.introGames
-            : state.introGames.filter((game) => {
-                // Verificar si el juego coincide con el género seleccionado
-                const matchGenre =
-                  payload === 'All' ||
-                  ((game.genres && game.genres.some((genre) => genre.name === payload)) ||
-                    (game.Genres && game.Genres.some((genre) => genre.name === payload)));
-                return matchGenre;
-              });
-        const totalPagesGenre = Math.ceil(filteredByGenre.length / PAGE_SIZE);
-        return {
-          ...state,
-          genre: payload,
-          filteredVideoGames: payload === 'All' ? [] : filteredByGenre,
-          totalPages: totalPagesGenre,
-        };
-      
+    case FILTER_BY_GENRE:
+      const filteredByGenre =
+        payload === 'All'
+          ? state.introGames
+          : state.introGames.filter((game) => {
+              // Verificar si el juego coincide con el género seleccionado
+              const matchGenre =
+                payload === 'All' ||
+                (game.genres &&
+                  game.genres.some((genre) => genre.name === payload)) ||
+                (game.Genres &&
+                  game.Genres.some((genre) => genre.name === payload));
+              return matchGenre;
+            });
+      const totalPagesGenre = Math.ceil(filteredByGenre.length / PAGE_SIZE);
+      return {
+        ...state,
+        genre: payload,
+        filteredVideoGames: payload === 'All' ? [] : filteredByGenre,
+        totalPages: totalPagesGenre,
+      };
 
     case FILTER_BY_SOURCE:
-      const filteredBySource = state.introGames.filter((game) =>
-        payload === 'All'
-          ? true
-          : payload === 'API'
-          ? game.fromApi
-          : !game.fromApi
-      );
+      let filteredBySource;
+      if (payload === 'All') {
+        // Si se selecciona 'All', mostrar todos los juegos
+        filteredBySource = state.introGames;
+      } else {
+        // Filtrar los juegos según el tipo de ID
+        filteredBySource = state.introGames.filter((game) =>
+          payload === 'API'
+            ? typeof game.id === 'number'
+            : typeof game.id !== 'number'
+        );
+      }
 
       const totalPagesSource = Math.ceil(filteredBySource.length / PAGE_SIZE);
       return {

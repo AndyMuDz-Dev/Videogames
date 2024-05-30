@@ -19,11 +19,13 @@ const Pagination = () => {
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
+        className={style.prev}
       >
         Prev
       </button>
       {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
         <button
+          className={style.button}
           key={page}
           onClick={() => handlePageChange(page)}
           disabled={page === currentPage}
@@ -34,6 +36,7 @@ const Pagination = () => {
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
+        className={style.next}
       >
         Next
       </button>
