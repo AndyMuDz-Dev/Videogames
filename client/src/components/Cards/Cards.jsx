@@ -10,6 +10,7 @@ const Cards = () => {
   const currentPage = useSelector((state) => state.currentPage);
   const introGames = useSelector((state) => state.introGames);
   const filteredVideoGames = useSelector((state) => state.filteredVideoGames);
+  const gamesByName = useSelector((state) => state.gamesByName);
   const pageSize = 15; // Tamaño de la página
 
   if (loading) {
@@ -22,7 +23,11 @@ const Cards = () => {
 
   // Determinar qué conjunto de juegos mostrar
   const gamesToDisplay =
-    filteredVideoGames.length > 0 ? filteredVideoGames : introGames;
+    gamesByName.length > 0
+      ? gamesByName
+      : filteredVideoGames.length > 0
+      ? filteredVideoGames
+      : introGames;
 
   // Calculamos los índices de inicio y fin para los juegos de la página actual
   const startIndex = (currentPage - 1) * pageSize;
