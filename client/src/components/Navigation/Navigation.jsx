@@ -5,17 +5,20 @@ import SearchBar from '../search/SearchBar';
 import {
   filterByGenre,
   filterBySource,
+  getAllGames,
   sortByAlphabet,
   sortByRating,
 } from '../../redux/action';
 import style from './navigation.module.css';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router-dom';
 
 const Navigation = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const handleHome = () => {
+    dispatch(getAllGames()); // Asegura que se carguen todos los juegos al volver a la página de inicio
+
     history.push('/home');
     window.location.reload();
   };

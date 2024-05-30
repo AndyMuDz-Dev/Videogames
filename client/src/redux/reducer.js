@@ -94,7 +94,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         genre: payload,
-        introGames: filteredByGenre,
+        filteredVideoGames: payload === 'All' ? [] : filteredByGenre,
         totalPages: totalPagesGenre,
       };
 
@@ -110,8 +110,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
       const totalPagesSource = Math.ceil(filteredBySource.length / PAGE_SIZE);
       return {
         ...state,
-        genre: payload,
-        introGames: filteredBySource,
+        source: payload,
+        filteredVideoGames: payload === 'All' ? [] : filteredBySource,
         totalPages: totalPagesSource,
       };
     case SORT_BY_ALPHABET:
