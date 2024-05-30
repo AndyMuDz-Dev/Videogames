@@ -78,10 +78,12 @@
 .selectedOptions {
   width: 400px;
   height: auto;
-  background-color: #fff;
+  background-color: #000;
+  color: #fff;
   position: absolute;
   display: none;
   left: 100px;
+  top: 360px;
 }
 
 .selectedOptions.visible {
@@ -97,7 +99,7 @@
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
-  box-shadow: 0px 10px 15px #000;
+  box-shadow: 0px 7px 15px #078ffd;
 }
 
 .errorName,

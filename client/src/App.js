@@ -11,6 +11,7 @@ import Navigation from './components/Navigation/Navigation';
 import Pagination from './components/Pagination/Pagination';
 import Detail from './components/DetailVideoGame/Detail';
 import CreateGame from './components/CreateGameForm/CreateGame';
+import Footer from './components/Footer/Footer';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,12 @@ const App = () => {
           path='/'
           render={({ location }) => (
             <>
-              {location.pathname !== routered.Bienvenida && <Navigation />}
+              {location.pathname !== routered.Bienvenida && (
+                <>
+                  <Navigation />
+                  <Footer />
+                </>
+              )}
               <Switch>
                 <Route
                   exact
