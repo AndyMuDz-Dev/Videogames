@@ -12,7 +12,6 @@ const getAllGenres = async (req, res) => {
     const apiGenres = response.data.results.map((g) => {
       return {
         name: g.name,
-        background_image: g.background_image,
       };
     });
 

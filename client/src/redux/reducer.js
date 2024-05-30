@@ -78,25 +78,26 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         createdGame: payload,
       };
-    case FILTER_BY_GENRE:
-      const filteredByGenre = state.introGames.filter((game) => {
-        // Verificar si game.genres está definido y no es null
-        if (game.genres && game.genres.length > 0) {
-          const genres = game.genres.map((genre) => genre.name); // Obtener nombres de géneros
-          return payload === 'All' ? true : genres.includes(payload);
-        }
-
-        // Si game.genres no está definido o es null, retornar false
-        return false;
-      });
-
-      const totalPagesGenre = Math.ceil(filteredByGenre.length / PAGE_SIZE);
-      return {
-        ...state,
-        genre: payload,
-        filteredVideoGames: payload === 'All' ? [] : filteredByGenre,
-        totalPages: totalPagesGenre,
-      };
+      case FILTER_BY_GENRE:
+        const filteredByGenre =
+          payload === 'All'
+            ? state.introGames
+            : state.introGames.filter((game) => {
+                // Verificar si el juego coincide con el género seleccionado
+                const matchGenre =
+                  payload === 'All' ||
+                  ((game.genres && game.genres.some((genre) => genre.name === payload)) ||
+                    (game.Genres && game.Genres.some((genre) => genre.name === payload)));
+                return matchGenre;
+              });
+        const totalPagesGenre = Math.ceil(filteredByGenre.length / PAGE_SIZE);
+        return {
+          ...state,
+          genre: payload,
+          filteredVideoGames: payload === 'All' ? [] : filteredByGenre,
+          totalPages: totalPagesGenre,
+        };
+      
 
     case FILTER_BY_SOURCE:
       const filteredBySource = state.introGames.filter((game) =>
