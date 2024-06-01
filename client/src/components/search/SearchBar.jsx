@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import style from './search.module.css';
 import { searchByName } from '../../redux/action'; // Importa la acción searchByName
+import { useHistory } from 'react-router-dom';
 
 const SearchBar = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
-
+  const history = useHistory();
   const handleChange = (e) => {
     setName(e.target.value);
   };
@@ -21,6 +22,7 @@ const SearchBar = () => {
       const result = await dispatch(searchByName(name));
 
       setName(''); // Limpiar el input después de enviar
+      history.push('/home');
       return result;
     } catch (error) {
       alert('Juego no encontrado.');

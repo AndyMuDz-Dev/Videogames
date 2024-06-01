@@ -9,6 +9,9 @@ const validation = (formData) => {
   if (!formData.description) {
     errors.description = 'Description is required';
   }
+  if (!formData.image) {
+    errors.image = 'URL image is required';
+  }
   if (!formData.platforms || formData.platforms.length === 0) {
     errors.platforms = 'At least one platform is required';
   }

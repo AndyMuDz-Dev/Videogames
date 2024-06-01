@@ -17,7 +17,7 @@ const CreateGame = () => {
     name: '',
     description: '',
     platforms: [],
-    image: defaultImg,
+    image: '',
     released: '',
     rating: '',
     genres: [],
@@ -105,6 +105,17 @@ const CreateGame = () => {
           {errors.description && (
             <p className={style.errorDescription}>{errors.description}</p>
           )}
+          <label htmlFor='image'>Image</label>
+          <input
+            id='image'
+            name='image'
+            placeholder='URL Image'
+            value={formData.image}
+            onChange={handleChange}
+            required
+            className={style.imageInput}
+          />
+          {errors.image && <p className={style.errorImage}>{errors.image}</p>}
 
           <label htmlFor='platforms'>Platforms:</label>
           <select

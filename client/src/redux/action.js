@@ -121,6 +121,7 @@ export const postVideoGame = (gameData) => async (dispatch) => {
       'http://localhost:3001/videogames/create',
       gameData
     );
+    console.log(response.data);
     dispatch({
       type: POST_VIDEO_GAME,
       payload: response.data,

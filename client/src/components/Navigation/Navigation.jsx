@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SearchBar from '../search/SearchBar';
 import {
   filterByGenre,
@@ -15,10 +15,10 @@ import { useHistory } from 'react-router-dom';
 const Navigation = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation(); // Obtener la ruta actual
 
   const handleHome = () => {
     dispatch(getAllGames()); // Asegura que se carguen todos los juegos al volver a la página de inicio
-
     history.push('/home');
     window.location.reload();
   };
@@ -50,38 +50,44 @@ const Navigation = () => {
         <button className={style.buttonCreate}>Create New Game</button>
       </Link>
       <SearchBar />
-      <div className={style.filterOptions}>
-        <h3>Filter by Genre:</h3>
-        <select onChange={handleFilterByGenre}>
-          <option value='All'>All</option>
-          <option value='Action'>Action</option>
-          <option value='Adventure'>Adventure</option>
-          <option value='RPG'>RPG</option>
-          <option value='Simulation'>Simulation</option>
-          <option value='Strategy'>Strategy</option>
-        </select>
-      </div>
-      <div className={style.filterOptions}>
-        <h3>Filter by Source:</h3>
-        <select onChange={handleFilterBySource}>
-          <option value='All'>All</option>
-          <option value='API'>API</option>
-          <option value='Database'>Database</option>
-        </select>
-      </div>
-      <div className={style.sortOptions}>
-        <h3>Sort by:</h3>
-        <div className={style.filters}>
-          <select onChange={handleSortByAlphabet}>
-            <option value='asc'>Alphabet (A-Z)</option>
-            <option value='desc'>Alphabet (Z-A)</option>
-          </select>
-          <select onChange={handleSortByRating}>
-            <option value='asc'>Rating (ascendente)</option>
-            <option value='desc'>Rating (descendente)</option>
-          </select>
-        </div>
-      </div>
+
+      {/* Condicionalmente renderiza filtros y ordenamiento solo en la ruta /home */}
+      {location.pathname === '/home' && (
+        <>
+          <div className={style.filterOptions}>
+            <h3>Filter by Genre:</h3>
+            <select onChange={handleFilterByGenre}>
+              <option value='All'>All</option>
+              <option value='Action'>Action</option>
+              <option value='Adventure'>Adventure</option>
+              <option value='RPG'>RPG</option>
+              <option value='Simulation'>Simulation</option>
+              <option value='Strategy'>Strategy</option>
+            </select>
+          </div>
+          <div className={style.filterOptions}>
+            <h3>Filter by Source:</h3>
+            <select onChange={handleFilterBySource}>
+              <option value='All'>All</option>
+              <option value='API'>API</option>
+              <option value='Database'>Database</option>
+            </select>
+          </div>
+          <div className={style.sortOptions}>
+            <h3>Sort by:</h3>
+            <div className={style.filters}>
+              <select onChange={handleSortByAlphabet}>
+                <option value='asc'>Alphabet (A-Z)</option>
+                <option value='desc'>Alphabet (Z-A)</option>
+              </select>
+              <select onChange={handleSortByRating}>
+                <option value='asc'>Rating (ascendente)</option>
+                <option value='desc'>Rating (descendente)</option>
+              </select>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

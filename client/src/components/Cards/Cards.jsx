@@ -41,7 +41,7 @@ const Cards = () => {
           key={game.id}
           id={game.id}
           name={game.name}
-          background_image={game.background_image || defaultImg}
+          background_image={game.background_image || game.image}
           // Nos aseguramos de que ambos genres y Genres sean arrays antes de acceder a ellos
           genres={(game.genres || []).concat(game.Genres || [])}
         />
