@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import Card from '../Card/Card';
 import style from './cards.module.css';
 import imgLoading from '../../media/loading.gif';
-import defaultImg from '../../media/imgDefault.jpg';
+
 
 const Cards = () => {
   const loading = useSelector((state) => state.loading);

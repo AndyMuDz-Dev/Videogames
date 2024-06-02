@@ -4,7 +4,6 @@ import { postVideoGame } from '../../redux/action';
 import validation from './validation';
 import style from './createGame.module.css';
 import { useHistory } from 'react-router-dom';
-import defaultImg from '../../media/imgDefault.jpg';
 
 const platformsOptions = ['PC', 'PlayStation', 'Xbox', 'Nintendo', 'Mobile'];
 const genresOptions = ['Action', 'Adventure', 'RPG', 'Simulation', 'Strategy'];
