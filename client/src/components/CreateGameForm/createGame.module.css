@@ -154,3 +154,41 @@
   top: 150px;
   left: 400px;
 }
+
+.successMessage {
+  background-color: #34f12e;
+  color: white;
+  position: absolute;
+  width: 50%;
+  height: 40px;
+  top: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  z-index: 9999;
+  text-align: center;
+  font-family: 'silk-screen';
+  animation: messageUp 1s infinite;
+  -webkit-animation: messageUp 3s;
+}
+
+@keyframes messageUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-250px);
+    scale: 1.5;
+    -webkit-transform: translateY(-250px);
+    -moz-transform: translateY(-250px);
+    -ms-transform: translateY(-250px);
+    -o-transform: translateY(-250px);
+  
+  }
+}

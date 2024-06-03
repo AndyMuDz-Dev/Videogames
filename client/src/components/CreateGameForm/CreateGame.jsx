@@ -24,6 +24,7 @@ const CreateGame = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, options } = e.target;
@@ -64,18 +65,24 @@ const CreateGame = () => {
         .then(() => {
           setFormData(initialFormData); // Reset form data
           setErrors({}); // Clear errors
-          alert('Videojuego creado correctamente');
-          history.push('/home'); // Redirige a /home
-          window.location.reload();
+          setSuccessMessage('Videojuego creado correctamente'); // Seteamos el mensaje de éxito
+          setTimeout(() => {
+            setSuccessMessage(''); // limpiamos el mensaje antes del redireccionamiento
+            history.push('/home'); // Redirecionamiento a /home
+            window.location.reload();
+          }, 8000); // mostramos por 8 segundos
         })
         .catch((error) => {
-          console.error('Error submitting form:', error);
+          console.error('Error al crear el videojuego:', error);
         });
     }
   };
 
   return (
     <div className={style.createGameContainer}>
+      {successMessage && (
+        <div className={style.successMessage}>{successMessage}</div>
+      )}
       <h1 className={style.title}>Create a New Game</h1>
       <div className={style.imgFondo}>
         <form className={style.containForm} onSubmit={handleSubmit}>

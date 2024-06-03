@@ -45,3 +45,7 @@
   z-index: 20;
   background: rgba(0, 0, 0, 0.5);
 }
+
+.name {
+  font-size: 20px;
+}
