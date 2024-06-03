@@ -4,7 +4,6 @@ import Card from '../Card/Card';
 import style from './cards.module.css';
 import imgLoading from '../../media/loading.gif';
 
-
 const Cards = () => {
   const loading = useSelector((state) => state.loading);
   const currentPage = useSelector((state) => state.currentPage);

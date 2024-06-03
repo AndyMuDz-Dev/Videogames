@@ -3,8 +3,7 @@ import style from './card.module.css';
 import { useDispatch } from 'react-redux';
 import { getDetail } from '../../redux/action';
 
-const Card = (props) => {
-  const { id, name, background_image, genres } = props;
+const Card = ({ id, name, background_image, genres }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {

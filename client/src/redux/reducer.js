@@ -114,6 +114,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
         );
       }
 
+      if (filteredBySource.length === 0) {
+        filteredBySource = [];
+      }
+
       const totalPagesSource = Math.ceil(filteredBySource.length / PAGE_SIZE);
       return {
         ...state,

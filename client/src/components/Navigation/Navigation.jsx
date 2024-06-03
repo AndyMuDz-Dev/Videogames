@@ -51,7 +51,7 @@ const Navigation = () => {
       </Link>
       <SearchBar />
 
-      {/* Condicionalmente renderiza filtros y ordenamiento solo en la ruta /home */}
+      {/* solo lo mostramos en home */}
       {location.pathname === '/home' && (
         <>
           <div className={style.filterOptions}>

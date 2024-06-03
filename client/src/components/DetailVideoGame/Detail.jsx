@@ -10,7 +10,7 @@ const Detail = () => {
   const gameDetail = useSelector((state) => state.detailGame);
   const loading = useSelector((state) => state.loading);
 
-  const { id } = useParams(); // Asegúrate de que useParams se llame como una función
+  const { id } = useParams(); 
 
   useEffect(() => {
     if (id) {
