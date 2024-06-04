@@ -15,6 +15,8 @@ export const FILTER_BY_GENRE = 'FILTER_BY_GENRE';
 export const FILTER_BY_SOURCE = 'FILTER_BY_SOURCE';
 export const SORT_BY_ALPHABET = 'SORT_BY_ALPHABET';
 export const SORT_BY_RATING = 'SORT_BY_RATING';
+//!filtrado en conjunto:
+export const FILTER_AND_SORT = 'FILTER_AND_SORT';
 
 export const PAGE_SIZE = 15;
 
@@ -76,7 +78,7 @@ export const getAllGenres = () => (dispatch) => {
 };
 
 export const searchByName = (name) => {
-  return async function (dispatch) {
+  return async function (dispatch, getState) {
     try {
       dispatch(setLoading(true));
       const res = await axios.get(
@@ -85,6 +87,12 @@ export const searchByName = (name) => {
       const results = res.data;
       const totalPages = Math.ceil(results.length / PAGE_SIZE);
       dispatch({ type: SEARCH_BY_NAME, payload: { results, totalPages } });
+      
+      //! Obtenemos el estado actual de los filtros y ordenamientos
+      const { genre, source, sortOrder, sortBy } = getState();
+
+       //! Aplicamos los filtros y ordenamientos actuales a los resultados de la búsqueda
+       dispatch(filterAndSort(genre, source, sortOrder, sortBy, results));
     } catch (error) {
       console.error('Error searching by name:', error);
       throw error;
@@ -121,7 +129,7 @@ export const postVideoGame = (gameData) => async (dispatch) => {
       'http://localhost:3001/videogames/create',
       gameData
     );
-    
+
     dispatch({
       type: POST_VIDEO_GAME,
       payload: response.data,
@@ -150,3 +158,13 @@ export const sortByRating = (order) => ({
   type: SORT_BY_RATING,
   payload: order,
 });
+
+export const filterAndSort = (genre, source, sortOrder, sortBy, games = null) => (dispatch, getState) => {
+  const stateGames = getState().introGames;
+  const gamesToFilterAndSort = games || stateGames;
+
+  dispatch({
+    type: FILTER_AND_SORT,
+    payload: { genre, source, sortOrder, sortBy, games: gamesToFilterAndSort },
+  });
+};

@@ -70,7 +70,7 @@ const CreateGame = () => {
             setSuccessMessage(''); // limpiamos el mensaje antes del redireccionamiento
             history.push('/home'); // Redirecionamiento a /home
             window.location.reload();
-          }, 8000); // mostramos por 8 segundos
+          }, 5000); // mostramos por 8 segundos
         })
         .catch((error) => {
           console.error('Error al crear el videojuego:', error);

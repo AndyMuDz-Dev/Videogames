@@ -21,8 +21,11 @@ const validation = (formData) => {
   }
   if (!formData.rating) {
     errors.rating = 'Rating is required';
-  } else if (!/^[1-5]$/.test(formData.rating)) {
-    errors.rating = 'The rating must be a number between 1 and 5';
+  } else {
+    const ratingValue = parseFloat(formData.rating);
+    if (isNaN(ratingValue) || ratingValue < 1 || ratingValue > 5) {
+      errors.rating = 'The rating must be a number between 1 and 5';
+    }
   }
   if (!formData.genres || formData.genres.length === 0) {
     errors.genres = 'At least one genre is required';

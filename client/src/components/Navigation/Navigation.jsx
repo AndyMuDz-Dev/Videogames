@@ -1,42 +1,49 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import SearchBar from '../search/SearchBar';
-import {
-  filterByGenre,
-  filterBySource,
-  getAllGames,
-  sortByAlphabet,
-  sortByRating,
-} from '../../redux/action';
+import { filterAndSort, getAllGames } from '../../redux/action';
 import style from './navigation.module.css';
 import { useHistory } from 'react-router-dom';
 
 const Navigation = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const location = useLocation(); // Obtener la ruta actual
+  const location = useLocation();
+  const genre = useSelector((state) => state.genre);
+  const source = useSelector((state) => state.source);
+  const sortOrder = useSelector((state) => state.sortOrder);
+  const sortBy = useSelector((state) => state.sortBy);
 
   const handleHome = () => {
-    dispatch(getAllGames()); // Asegura que se carguen todos los juegos al volver a la página de inicio
+    dispatch(getAllGames());
     history.push('/home');
     window.location.reload();
   };
 
+  const handleFilterAndSort = (
+    newGenre,
+    newSource,
+    newSortOrder,
+    newSortBy
+  ) => {
+    dispatch(filterAndSort(newGenre, newSource, newSortOrder, newSortBy));
+  };
+
   const handleFilterByGenre = (event) => {
-    dispatch(filterByGenre(event.target.value));
+    handleFilterAndSort(event.target.value, source, sortOrder, sortBy);
   };
 
   const handleFilterBySource = (event) => {
-    dispatch(filterBySource(event.target.value));
+    handleFilterAndSort(genre, event.target.value, sortOrder, sortBy);
   };
 
   const handleSortByAlphabet = (event) => {
-    dispatch(sortByAlphabet(event.target.value));
+    handleFilterAndSort(genre, source, event.target.value, 'name');
   };
 
   const handleSortByRating = (event) => {
-    dispatch(sortByRating(event.target.value));
+    handleFilterAndSort(genre, source, event.target.value, 'rating');
   };
 
   return (
@@ -50,8 +57,6 @@ const Navigation = () => {
         <button className={style.buttonCreate}>Create New Game</button>
       </Link>
       <SearchBar />
-
-      {/* solo lo mostramos en home */}
       {location.pathname === '/home' && (
         <>
           <div className={style.filterOptions}>

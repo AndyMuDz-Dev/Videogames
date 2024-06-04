@@ -16,7 +16,6 @@
 .containForm {
   width: 400px;
   height: 50%;
-
   display: flex;
   flex-direction: column;
   position: relative;
@@ -43,7 +42,7 @@
 .title {
   position: absolute;
   color: #fff;
-  font-size: 40px;
+  font-size: 35px;
   font-weight: bold;
   top: 200px;
   z-index: 20;
@@ -100,6 +99,7 @@
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   box-shadow: 0px 7px 15px #078ffd;
+  font-size: 12px;
 }
 
 .errorName,
@@ -173,8 +173,8 @@
   z-index: 9999;
   text-align: center;
   font-family: 'silk-screen';
-  animation: messageUp 1s infinite;
-  -webkit-animation: messageUp 3s;
+  animation: messageUp 6s;
+  -webkit-animation: messageUp 6s;
 }
 
 @keyframes messageUp {
@@ -184,11 +184,12 @@
   }
   100% {
     transform: translateY(-250px);
-    scale: 1.5;
+    scale: 1.4;
     -webkit-transform: translateY(-250px);
     -moz-transform: translateY(-250px);
     -ms-transform: translateY(-250px);
     -o-transform: translateY(-250px);
-  
+    opacity: 0.5;
+    z-index: -9999;
   }
 }

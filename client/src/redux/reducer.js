@@ -15,6 +15,7 @@ import {
   SORT_BY_ALPHABET,
   SORT_BY_RATING,
   PAGE_SIZE,
+  FILTER_AND_SORT,
 } from './action';
 
 const initialState = {
@@ -50,11 +51,17 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
     case SET_ITEMS:
       return { ...state, items: payload };
+
     case SEARCH_BY_NAME:
+      const searchResults = payload.results;
+      const searchTotalPages = Math.ceil(searchResults.length / PAGE_SIZE);
+
       return {
         ...state,
-        gamesByName: payload.results,
-        totalPages: payload.totalPages,
+        gamesByName: searchResults,
+        totalPages: searchTotalPages,
+        currentPage: 1,
+        items: searchResults.slice(0, PAGE_SIZE),
       };
     case SET_LOADING:
       return {
@@ -92,6 +99,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                   game.Genres.some((genre) => genre.name === payload));
               return matchGenre;
             });
+
       const totalPagesGenre = Math.ceil(filteredByGenre.length / PAGE_SIZE);
       return {
         ...state,
@@ -151,6 +159,53 @@ const rootReducer = (state = initialState, { type, payload }) => {
         sortOrder: payload,
         introGames: sortedByRating,
         totalPages: totalPagesRating,
+      };
+    case FILTER_AND_SORT:
+      const { genre, source, sortOrder, sortBy, games } = payload;
+      let filteredGames = [...games];
+
+      // Filtrar por género
+      if (genre !== 'All') {
+        filteredGames = filteredGames.filter(
+          (game) =>
+            (game.genres && game.genres.some((g) => g.name === genre)) ||
+            (game.Genres && game.Genres.some((g) => g.name === genre))
+        );
+      }
+
+      // Filtrar por fuente
+      if (source !== 'All') {
+        filteredGames = filteredGames.filter((game) =>
+          source === 'API'
+            ? typeof game.id === 'number'
+            : typeof game.id !== 'number'
+        );
+      }
+
+      // Ordenar
+      if (sortBy === 'name') {
+        filteredGames = filteredGames.sort((a, b) =>
+          sortOrder === 'asc'
+            ? a.name.localeCompare(b.name)
+            : b.name.localeCompare(a.name)
+        );
+      } else if (sortBy === 'rating') {
+        filteredGames = filteredGames.sort((a, b) =>
+          sortOrder === 'asc' ? a.rating - b.rating : b.rating - a.rating
+        );
+      }
+
+      const totalPages = Math.ceil(filteredGames.length / PAGE_SIZE);
+      return {
+        ...state,
+        genre,
+        source,
+        sortOrder,
+        sortBy,
+        filteredVideoGames: filteredGames,
+        totalPages,
+        currentPage: 1,
+        items: filteredGames.slice(0, PAGE_SIZE),
       };
     default:
       return state;
